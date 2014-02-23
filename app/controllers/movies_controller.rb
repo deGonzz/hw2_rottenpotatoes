@@ -7,7 +7,7 @@ class MoviesController < ApplicationController
     else
       session[:order] = params[:order] || session[:order]
     end
-    # debugger
+    #debugger
     @movies = Movie.order(session[:order])
     @selected_column = session[:order]
     #@ratings = Movie.order(session[:order])
