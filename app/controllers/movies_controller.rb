@@ -2,15 +2,25 @@
 class MoviesController < ApplicationController
 
   def index
-    if session[:order] == params[:order]
-      session[:order] = 'rating'
-    else
+    #  if session[:order] == params[:order]
+    #    session[:order] = 'rating'
+    # end
+    # # else
       session[:order] = params[:order] || session[:order]
-    end
+    # end
     #debugger
-    @movies = Movie.order(session[:order])
+    @all_ratings = Movie.pluck(:rating).uniq
+    # @movies = Movie.order(session[:order])
     @selected_column = session[:order]
-    #@ratings = Movie.order(session[:order])
+    @selected_ratings = params[:ratings]
+    if @selected_ratings == nil
+      @movies = Movie.order(session[:order])
+    end
+    if @selected_ratings != nil
+      @movies = Movie.where(:rating => @selected_ratings)
+    end
+    # @ratings = Movie.order(session[:order])
+    # debugger
   end
 
   def show
