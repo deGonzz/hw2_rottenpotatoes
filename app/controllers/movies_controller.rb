@@ -2,15 +2,10 @@
 class MoviesController < ApplicationController
 
   def index
-    #  if session[:order] == params[:order]
-    #    session[:order] = 'rating'
-    # end
-    # # else
-      session[:order] = params[:order] || session[:order]
-    # end
-    #debugger
+    session[:order] = params[:order] || session[:order] 
+    #session[] is a hash that persists across requests. Here, either a movie's primary key (their order, if nothing needs to be stored in
+    # between actions) or a previous saved session primary keys, is stored into the session hash
     @all_ratings = Movie.pluck(:rating).uniq
-    # @movies = Movie.order(session[:order])
     @selected_column = session[:order]
     @selected_ratings = params[:ratings]
     if @selected_ratings == nil
@@ -19,7 +14,6 @@ class MoviesController < ApplicationController
     if @selected_ratings != nil
       @movies = Movie.where(:rating => @selected_ratings)
     end
-    # @ratings = Movie.order(session[:order])
     # debugger
   end
 
